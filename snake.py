@@ -25,6 +25,7 @@ class SNAKE:
         self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
 
+        self.crunch_sound = pygame.mixer.Sound('Sound/crunch.wav')
     def draw_snake(self):
         for index, block in enumerate(self.body):
             self.update_head_graphics()
@@ -82,7 +83,10 @@ class SNAKE:
             self.body = body_copy[:]
     
     def add_block(self):
-        self.new_block = True 
+        self.new_block = True
+
+    def play_crunch_sound(self):
+        self.crunch_sound.play() 
 
 class FRUIT:
     def __init__(self):
@@ -123,6 +127,7 @@ class MAIN:
             self.fruit.randomize()
             # add another block to the snake
             self.snake.add_block()
+            self.snake.play_crunch_sound()
     
     def check_fail(self):
         # check if snake is outside of the screen
@@ -167,6 +172,7 @@ class MAIN:
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 # starts all the modules (sounds, graphics,etc)
+pygame.mixer.pre_init(44100, -16,2,512)
 pygame.init()
 cell_number = 40
 cell_size = 20
@@ -175,8 +181,8 @@ screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 # clock object that helps influence time in game
 clock = pygame.time.Clock()
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
-
 game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
+
 SCREEN_UPDATE = pygame.USEREVENT
 # this event is trigger every 150 ms
 pygame.time.set_timer(SCREEN_UPDATE, 150)
