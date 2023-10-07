@@ -3,7 +3,7 @@ from pygame.math import Vector2
 
 class SNAKE:
     def __init__(self):
-        self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
+        self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]
         self.direction = Vector2(1,0)
         self.new_block = False
     def draw_snake(self):
@@ -55,6 +55,7 @@ class MAIN:
     def update(self):
         self.snake.move_snake()
         self.check_collision()
+        self.check_fail()
     
     def draw_elements(self):
         self.fruit.draw_fruit()
@@ -66,6 +67,21 @@ class MAIN:
             self.fruit.randomize()
             # add another block to the snake
             self.snake.add_block()
+    
+    def check_fail(self):
+        # check if snake is outside of the screen
+        if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
+            self.game_over()
+        
+        for block in self.snake.body[1:]:
+            if block == self.snake.body[0]:
+                self.game_over()
+
+    def game_over():
+        pygame.quit()
+            # ends any code that's been run
+        sys.exit()
+
 
 # starts all the modules (sounds, graphics,etc)
 pygame.init()
@@ -93,13 +109,21 @@ while True:
             main_game.update()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                main_game.snake.direction = Vector2(0, -1)
+                # Don't change direction if user presses up if snake is going down
+                if main_game.snake.direction.y != 1:
+                    main_game.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                main_game.snake.direction = Vector2(0, 1)
+                # Don't change direction if user presses down when snake is going up
+                if main_game.snake.direction.y != -1:
+                    main_game.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_RIGHT:
-                main_game.snake.direction = Vector2(1, 0)
+                # Don't change direction if user presses right when snake is going left
+                if main_game.snake.direction.x != -1:
+                    main_game.snake.direction = Vector2(1, 0)
             if event.key == pygame.K_LEFT:
-                main_game.snake.direction = Vector2(-1, 0)
+                # Don't change direction if user presses left when snake is going right 
+                if main_game.snake.direction.x != 1:
+                    main_game.snake.direction = Vector2(-1, 0)
             
     # second param in blit is axis
     screen.fill((175,215,70))
