@@ -128,6 +128,10 @@ class MAIN:
             # add another block to the snake
             self.snake.add_block()
             self.snake.play_crunch_sound()
+        
+        for block in self.snake.body[1:]:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
     
     def check_fail(self):
         # check if snake is outside of the screen
