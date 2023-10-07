@@ -1,6 +1,18 @@
 import pygame, sys, random
 from pygame.math import Vector2
 
+class SNAKE:
+    def __init__(self):
+        self.body = [Vector2(5,10), Vector2(6,10), Vector2(7,10)]
+    
+    def draw_snake(self):
+        for block in self.body:
+            # create rect from the position
+            x_pos = int(block.x * cell_size)
+            y_pos = int(block.y * cell_size)
+            block_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
+            # draw the rectange
+            pygame.draw.rect(screen, (183,111,122), block_rect)
 class FRUIT:
     def __init__(self):
         # create an x and y position
@@ -27,6 +39,7 @@ screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 clock = pygame.time.Clock()
 
 fruit = FRUIT()
+snake = SNAKE()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -36,6 +49,7 @@ while True:
     # second param in blit is axis
     screen.fill((175,215,70))
     fruit.draw_fruit()
+    snake.draw_snake()
     # draw all our elements (background, snake, fruits) and displays on main display surface
     pygame.display.update()
    
