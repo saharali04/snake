@@ -22,7 +22,9 @@ class FRUIT:
 
     def draw_fruit(self):
         # create a rectangle
-        fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        x_pos = int(self.pos.x * cell_size)
+        y_pos = int(self.pos.y * cell_size)
+        fruit_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
         # draw a square at this position
         pygame.draw.rect(screen, (126,166,114),fruit_rect)
 
