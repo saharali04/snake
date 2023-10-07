@@ -6,6 +6,7 @@ class SNAKE:
         self.body = [Vector2(5,10), Vector2(4,10), Vector2(3,10)]
         self.direction = Vector2(1,0)
         self.new_block = False
+    
     def draw_snake(self):
         for block in self.body:
             # create rect from the position
@@ -39,8 +40,7 @@ class FRUIT:
         x_pos = int(self.pos.x * cell_size)
         y_pos = int(self.pos.y * cell_size)
         fruit_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
-        # draw a square at this position
-        pygame.draw.rect(screen, (126,166,114),fruit_rect)
+        screen.blit(apple, fruit_rect)
     
     def randomize(self):
         self.x = random.randint(0,cell_number - 1)
@@ -92,6 +92,7 @@ cell_size = 20
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 # clock object that helps influence time in game
 clock = pygame.time.Clock()
+apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 
 SCREEN_UPDATE = pygame.USEREVENT
 # this event is trigger every 150 ms
